@@ -1,0 +1,20 @@
+version: '3.4'
+services:
+    php:
+        container_name: php
+        build: ./services/php
+        volumes:
+            - ../app:/var/www/
+    app:
+        container_name: app
+        build: ./services/nginx
+        volumes:
+            - ../app:/var/www
+            - ./services/nginx/etc/nginx/sites-enabled:/etc/nginx/sites-enabled
+        tty: true
+        working_dir: /var/www
+        depends_on:
+            - php
+        ports:
+            - 80:80
+            - 443:443
